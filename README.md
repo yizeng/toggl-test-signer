@@ -18,7 +18,7 @@ Run `make docker` and then navigate to <http://localhost:8080>
 
 #### `POST    /api/v1/users/sign-answers`
 
-1. Create a JWT (e.g. <https://www.javainuse.com/jwtgenerator>) with the payload containing `user_id`.
+1. Create a JWT (e.g. <https://www.javainuse.com/jwtgenerator>) with the payload containing `userID`.
 Use the value of `JWT_SECRET` from `.env` file as the secret.
 
 ```json
