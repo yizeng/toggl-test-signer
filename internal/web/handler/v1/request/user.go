@@ -6,10 +6,10 @@ import (
 	"github.com/yizeng/toggl-test-signer/internal/domain"
 )
 
-type SignAnswers struct {
+type SignTest struct {
 	Answers []domain.Answer
 }
 
-func (c *SignAnswers) Bind(r *http.Request) error {
+func (c *SignTest) Bind(r *http.Request) error {
 	return nil
 }

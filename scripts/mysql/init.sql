@@ -1,0 +1,1 @@
+CREATE DATABASE toggl_test_signer;

@@ -2,6 +2,7 @@ package v1
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/go-chi/render"
@@ -35,9 +36,13 @@ func (h *AdminHandler) HandleVerifySignature(w http.ResponseWriter, r *http.Requ
 
 	answers, err := h.svc.VerifySignature(r.Context(), req.UserID, req.Signature)
 	if err != nil {
-		// TODO: Handle explicitly if user not found, if signature not valid.
-		render.Status(r, http.StatusInternalServerError)
-		render.JSON(w, r, ErrInternalServerError(err))
+		if errors.Is(err, service.ErrTestNotFound) {
+			render.Status(r, http.StatusNotFound)
+			render.JSON(w, r, ErrNotFound(err))
+		} else {
+			render.Status(r, http.StatusInternalServerError)
+			render.JSON(w, r, ErrInternalServerError(err))
+		}
 	}
 
 	render.Status(r, http.StatusOK)
