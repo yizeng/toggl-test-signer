@@ -94,16 +94,19 @@ Response
 3. Check response
 
 ```json
-[
+{
+  "answers": [
     {
-        "questionID": 1,
-        "answer": "answer 1"
+      "questionID": 1,
+      "answer": "answer 1"
     },
     {
-        "questionID": 2,
-        "answer": "answer 2"
+      "questionID": 2,
+      "answer": "answer 2"
     }
-]
+  ],
+  "signedAt": "2023-12-12T15:45:41Z"
+}
 ```
 
 4. Error scenarios

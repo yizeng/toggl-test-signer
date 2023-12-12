@@ -13,7 +13,7 @@ var (
 
 type TestDAO interface {
 	Create(ctx context.Context, userID uint64, answers []byte, signature string, signedAt int64) error
-	Find(ctx context.Context, userID uint64, signature string) ([]byte, error)
+	Find(ctx context.Context, userID uint64, signature string) (Test, error)
 }
 
 type GORMTestDAO struct {
@@ -39,7 +39,7 @@ type Test struct {
 }
 
 func (dao *GORMTestDAO) Create(ctx context.Context, userID uint64, answers []byte, signature string, signedAt int64) error {
-	now := time.Now().UnixMilli()
+	now := time.Now().Unix()
 	t := &Test{
 		UserID:    userID,
 		QAndA:     answers,
@@ -53,9 +53,9 @@ func (dao *GORMTestDAO) Create(ctx context.Context, userID uint64, answers []byt
 	return err
 }
 
-func (dao *GORMTestDAO) Find(ctx context.Context, userID uint64, signature string) ([]byte, error) {
+func (dao *GORMTestDAO) Find(ctx context.Context, userID uint64, signature string) (Test, error) {
 	var t Test
 	err := dao.db.WithContext(ctx).Where("user_id = ? AND signature = ?", userID, signature).First(&t).Error
 
-	return t.QAndA, err
+	return t, err
 }

@@ -32,17 +32,17 @@ func (r TestRepository) Create(ctx context.Context, userID uint64, answers []byt
 	return nil
 }
 
-func (r TestRepository) Find(ctx context.Context, userID uint64, signature string) ([]domain.Answer, error) {
-	answers, err := r.dao.Find(ctx, userID, signature)
+func (r TestRepository) Find(ctx context.Context, userID uint64, signature string) ([]domain.Answer, int64, error) {
+	test, err := r.dao.Find(ctx, userID, signature)
 	if err != nil {
-		return nil, fmt.Errorf("find test r.dao.Find() -> %w", err)
+		return nil, 0, fmt.Errorf("find test r.dao.Find() -> %w", err)
 	}
 
 	var result []domain.Answer
-	err = json.Unmarshal(answers, &result)
+	err = json.Unmarshal(test.QAndA, &result)
 	if err != nil {
-		return nil, fmt.Errorf(" unmarshal answers json.Unmarshal -> %w", err)
+		return nil, 0, fmt.Errorf(" unmarshal answers json.Unmarshal -> %w", err)
 	}
 
-	return result, nil
+	return result, test.SignedAt, nil
 }

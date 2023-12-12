@@ -23,15 +23,15 @@ func NewAdminService(testRepo *repository.TestRepository) *AdminService {
 	}
 }
 
-func (s *AdminService) VerifySignature(ctx context.Context, userID uint64, signature string) ([]domain.Answer, error) {
-	answers, err := s.testRepo.Find(ctx, userID, signature)
+func (s *AdminService) VerifySignature(ctx context.Context, userID uint64, signature string) ([]domain.Answer, int64, error) {
+	answers, signedAt, err := s.testRepo.Find(ctx, userID, signature)
 	if err != nil {
 		if errors.Is(err, ErrTestNotFound) {
-			return nil, ErrTestNotFound
+			return nil, 0, ErrTestNotFound
 		}
 
-		return nil, fmt.Errorf("find test s.testRepo.Find() -> %w", err)
+		return nil, 0, fmt.Errorf("find test s.testRepo.Find() -> %w", err)
 	}
 
-	return answers, nil
+	return answers, signedAt, nil
 }

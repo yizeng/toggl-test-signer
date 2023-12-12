@@ -22,7 +22,7 @@ func NewUserService(testRepo *repository.TestRepository) *UserService {
 }
 
 func (s *UserService) SignTest(ctx context.Context, userID uint64, answers []domain.Answer) (string, error) {
-	now := time.Now().UnixMilli()
+	now := time.Now().Unix()
 	signature := hashing.CreateSHA256(fmt.Sprintf("%v:%v", userID, now))
 
 	answersJSON, err := json.Marshal(answers)
