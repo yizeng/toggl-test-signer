@@ -119,3 +119,21 @@ Response
 Due to the time constraints,
 - The design of questions and answers tables is omitted. The signing is done by saving QAndA as a text column.
 - `uesr` table is not defined and there's foreign key with `test` table.
+
+## Testing
+
+Didn't have time to setup integration tests.
+The test cases to be covered:
+
+- POST /api/v1/users/sign-answers
+  - 400 - JWT generated with the wrong secret
+  - 400 - JWT has invalid payload
+  - 400 - JWT `userID` is not a number
+  - 400 - Request is invalid
+  - 500 - unknown internal errors
+  - 200 - Success
+
+- POST /api/v1/admin/verify-signature
+  - 400 - Request is invalid
+  - 404 - cannot find the test with the userID and signature
+  - 200 - OK
